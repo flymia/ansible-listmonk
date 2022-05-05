@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include flymia.listmonk"
+      include_role:
+        name: "flymia.listmonk"
