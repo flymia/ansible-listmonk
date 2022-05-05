@@ -1,0 +1,16 @@
+[app]
+address = "{{ lm_config_address }}"
+admin_username = "{{ lm_config_admin_username }}"
+admin_password = "{{ lm_config_admin_password }}"
+
+# Database.
+[db]
+host = "{{ lm_config_db_host }}"
+port = {{ lm_config_db_port }}
+user = "{{ lm_config_db_user }}"
+password = "{{ lm_config_db_password }}"
+database = "{{ lm_config_db_database }}"
+ssl_mode = "{{ lm_config_db_ssl_mode }}"
+max_open = {{ lm_config_db_max_open }}
+max_idle = {{ lm_config_db_max_idle }}
+max_lifetime = "{{ lm_config_db_max_lifetime }}"

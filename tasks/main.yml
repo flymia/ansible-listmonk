@@ -1,4 +1,67 @@
 ---
 # tasks file for listmonk
-- debug:
-    msg: "Hallo"
+- name: Create a group for the user
+  ansible.builtin.group:
+    name: "{{ lm_group }}"
+    state: present
+
+- name: Create a user to run the program with
+  user:
+    name: "{{ lm_username }}"
+    group: "{{ lm_group }}"
+    system: yes
+    state: present
+
+- name: Create installation and configuration directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ lm_username }}"
+    group: "{{ lm_group }}"
+  with_items:
+    - "{{ lm_installation_directory }}"
+    - "{{ lm_configuration_directory }}"
+
+- name: Download and extract the tar
+  unarchive:
+    src: "{{ lm_download_url }}"
+    dest: "{{ lm_installation_directory }}"
+    owner: "{{ lm_username }}"
+    group: "{{ lm_group }}"
+    remote_src: yes
+  notify: Restart listmonk
+
+- name: Create a symbolic link to the binary location of choice
+  file:
+    src: "{{ lm_installation_directory }}/listmonk"
+    dest: "{{ lm_binary_location }}"
+    owner: "{{ lm_username }}"
+    group: "{{ lm_group }}"
+    state: link
+
+- name: Copy the configuration file to the config directory
+  template:
+    src: config.toml.j2
+    dest: "{{ lm_configuration_directory }}/settings.toml"
+    owner: "{{ lm_username }}"
+    group: "{{ lm_group }}"
+  notify: Restart listmonk
+
+- name: Copy the systemd-service file
+  template:
+    src: listmonk.service.j2
+    dest: /etc/systemd/system/listmonk.service
+    owner: root
+    group: root
+  notify: Daemon reload
+
+- name: Start the service
+  service:
+    name: listmonk
+    state: started
+
+- name: Enable the service
+  systemd:
+    name: listmonk
+    enabled: yes
+  when: lm_enable_service == true

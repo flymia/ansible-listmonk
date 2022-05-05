@@ -1,0 +1,10 @@
+[Unit]
+Description=Listmonk
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+ExecStart={{ lm_binary_location }} --config {{ lm_configuration_directory }}/config.toml
+
+[Install]
+WantedBy=multi-user.target

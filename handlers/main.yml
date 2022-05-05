@@ -1,2 +1,10 @@
 ---
 # handlers file for listmonk
+- name: Restart listmonk
+  service:
+    name: listmonk
+    state: restarted
+
+- name: Daemon reload
+  systemd:
+    daemon_reload: yes

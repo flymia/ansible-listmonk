@@ -13,4 +13,4 @@
 # Built Visual Studio Code Extensions
 *.vsix
 
-*.retry
+*.retry 

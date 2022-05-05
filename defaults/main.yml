@@ -1,2 +1,28 @@
 ---
 # defaults file for listmonk
+
+lm_version: 2.1.0
+lm_download_url: "https://github.com/knadh/listmonk/releases/download/v{{ lm_version }}/listmonk_{{ lm_version}}_linux_amd64.tar.gz"
+
+lm_username: listmonk
+lm_group: listmonk
+
+lm_installation_directory: /opt/listmonk
+lm_configuration_directory: /etc/listmonk
+lm_binary_location: /usr/local/bin/listmonk
+
+lm_enable_service: true
+
+# Default values taken from https://listmonk.app/docs/installation/
+lm_config_address: 0.0.0.0:9000
+lm_config_admin_username: listmonk
+lm_config_admin_password: listmonk
+lm_config_db_host: listmonk_db
+lm_config_db_port: 5432
+lm_config_db_user: listmonk
+lm_config_db_password: listmonk
+lm_config_db_database: listmonk
+lm_config_db_ssl_mode: disable
+lm_config_db_max_open: 25
+lm_config_db_max_idle: 25
+lm_config_db_max_lifetime: 300s
