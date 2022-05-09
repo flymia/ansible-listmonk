@@ -42,7 +42,7 @@
 - name: Copy the configuration file to the config directory
   template:
     src: config.toml.j2
-    dest: "{{ lm_configuration_directory }}/settings.toml"
+    dest: "{{ lm_configuration_directory }}/config.toml"
     owner: "{{ lm_username }}"
     group: "{{ lm_group }}"
   notify: Restart listmonk
