@@ -55,6 +55,35 @@
     group: root
   notify: Daemon reload
 
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install dependencies for ansible
+  package:
+    name: python3-pexpect
+    state: present
+
+- name: Check if playbook has ran before
+  stat:
+    path: "{{ lm_installation_directory }}/.ansible-control"
+  register: controlfile
+
+- name: Force install of database scheme once
+  expect:
+    command: "{{ lm_binary_location }} --config {{ lm_configuration_directory }}/config.toml --install"
+    responses:
+      'This will wipe existing listmonk tables and types in the DB' : 'y'
+  when: not controlfile.stat.exists
+  ignore_errors: yes
+
+- name: Create control file (if running the first time)
+  file:
+    path: "{{ lm_installation_directory }}/.ansible-control"
+    state: touch
+  when: not controlfile.stat.exists
+
 - name: Start the service
   service:
     name: listmonk
