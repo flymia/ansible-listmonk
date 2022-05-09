@@ -1,0 +1,11 @@
+---
+- hosts: pvetest1,pvetest2
+  become: yes
+  roles:
+    - flymia.listmonk
+  vars:
+    - lm_config_address: 0.0.0.0:8989
+    - lm_config_db_host: localhost
+    - lm_config_db_user: listmonkuser
+    - lm_config_db_password: testpass
+    - lm_config_db_database: listmonk-test
